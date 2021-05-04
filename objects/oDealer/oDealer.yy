@@ -1,8 +1,5 @@
 {
-  "spriteId": {
-    "name": "sCards",
-    "path": "sprites/sCards/sCards.yy",
-  },
+  "spriteId": null,
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
@@ -31,7 +28,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oCard",
+  "name": "oDealer",
   "tags": [],
   "resourceType": "GMObject",
 }
