@@ -1,5 +1,6 @@
 var isAtTargetPosition = dealFramesLeft == 0;
 var isInUprightPosition = rotateToUprightPositionFramesLeft == 0;
+var isFlippingComplete = flippingFramesLeft == 0;
 
 if (state == CardState.BEGIN_BEING_DEALT) {
 	state = CardState.BEING_DEALT;
@@ -25,6 +26,15 @@ if (state == CardState.BEGIN_BEING_DEALT) {
 	state = CardState.IDLE;
 
 	image_angle = 0;
+} else if (state == CardState.BEGIN_FLIPPLING) {
+	state = CardState.FLIPPING;
+
+	flippingFramesLeft = FLIPPING_FRAMES;
+	deltaXScale = -(2 / FLIPPING_FRAMES);
+} else if (state == CardState.FLIPPING && isFlippingComplete) {
+	state = CardState.IDLE;
+
+	image_xscale = 1;
 }
 
 switch (state) {
@@ -37,14 +47,27 @@ switch (state) {
 		dealFramesLeft--;
 	} break;
 
-	case CardState.IDLE: {
-		// do nothing
-	} break;
-
 	case CardState.ROTATE_TO_UPRIGHT_POSITION: {
 		image_angle += deltaAngle;
 
 		rotateToUprightPositionFramesLeft--;
+	} break;
+
+	case CardState.FLIPPING: {
+		image_xscale += deltaXScale;
+		if (image_xscale <= 0) {
+			showingCard = !showingCard;
+
+			image_xscale = abs(image_xscale);
+			deltaXScale = abs(deltaXScale);
+		}
+
+		flippingFramesLeft--;
+	} break;
+
+	case CardState.IDLE:
+	default: {
+		// do nothing
 	} break;
 }
 
@@ -55,3 +78,5 @@ while (image_angle < 0) {
 while (image_angle >= 360) {
 	image_angle -= 360;
 }
+
+image_index = showingCard ? cardValue : 0;
