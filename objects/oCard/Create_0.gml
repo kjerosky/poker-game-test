@@ -21,7 +21,7 @@ ROTATE_TO_UPRIGHT_POSITION_FRAMES = 20;
 rotateToUprightPositionFramesLeft = 0;
 deltaAngle = 0;
 
-FLIPPING_FRAMES = 5;
+FLIPPING_FRAMES = 20;
 flippingFramesLeft = 0;
 deltaXScale = 0;
 
