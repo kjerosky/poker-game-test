@@ -8,3 +8,9 @@ if (keyboard_check_pressed(vk_space)) {
 	
 	currentTarget = (currentTarget + 1) % NUM_TARGETS;
 }
+
+if (keyboard_check_pressed(vk_enter)) {
+	with (oCard) {
+		state = CardState.BEGIN_ROTATE_TO_UPRIGHT_POSITION;
+	}
+}
