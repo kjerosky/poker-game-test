@@ -6,3 +6,5 @@ image_speed = 0;
 
 targetX = -1;
 targetY = -1;
+
+image_angle = irandom_range(0, 359);

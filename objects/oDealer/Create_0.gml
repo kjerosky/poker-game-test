@@ -1,5 +1,5 @@
-X_TARGETS = [80, 104, 128, 152, 176];
-Y_TARGETS = [72, 72, 72, 72, 72];
+X_TARGETS = [70, 95, 120, 145, 170];
+Y_TARGETS = [67, 67, 67, 67, 67];
 NUM_TARGETS = array_length(X_TARGETS);
 
 currentTarget = 0;
