@@ -3,6 +3,8 @@
     {"id":{"name":"sCards","path":"sprites/sCards/sCards.yy",},"order":0,},
     {"id":{"name":"oCard","path":"objects/oCard/oCard.yy",},"order":0,},
     {"id":{"name":"oDealer","path":"objects/oDealer/oDealer.yy",},"order":1,},
+    {"id":{"name":"oCardSelector","path":"objects/oCardSelector/oCardSelector.yy",},"order":3,},
+    {"id":{"name":"sCardSelector","path":"sprites/sCardSelector/sCardSelector.yy",},"order":1,},
     {"id":{"name":"oCamera","path":"objects/oCamera/oCamera.yy",},"order":2,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
   ],

@@ -1,6 +1,7 @@
 var playerWantsCards = keyboard_check_pressed(vk_space);
 var isDoneDealingCards = currentCardIndex >= NUM_CARDS;
 var isDoneFlippingCards = currentCardIndex >= NUM_CARDS;
+var isDoneChoosingReplacementCards = keyboard_check_pressed(vk_enter);
 
 var isDoneRotatingCardsToUprightPosition = true;
 with (oCard) {
@@ -11,7 +12,7 @@ with (oCard) {
 
 
 
-if (state == DealerState.IDLE && playerWantsCards) {
+if (state == DealerState.START && playerWantsCards) {
 	state = DealerState.DEALING_CARDS;
 	
 	for (var i = 0; i < NUM_CARDS; i++) {
@@ -39,7 +40,24 @@ if (state == DealerState.IDLE && playerWantsCards) {
 	currentCardIndex = 0;
 	cards[currentCardIndex].state = CardState.BEGIN_FLIPPLING;
 } else if (state == DealerState.FLIPPING_CARDS && isDoneFlippingCards) {
-	state = DealerState.IDLE;
+	state = DealerState.ALLOWING_CARD_REPLACEMENT_CHOICES;
+
+	selectedCardIndex = 0;
+	cardSelector = instance_create_layer(CARD_TARGET_POSITIONS[selectedCardIndex].x, CARD_SELECTOR_Y, "Instances", oCardSelector);
+} else if (state == DealerState.ALLOWING_CARD_REPLACEMENT_CHOICES && isDoneChoosingReplacementCards) {
+	state = DealerState.REMOVING_CHOSEN_CARDS;
+
+	instance_destroy(oCardSelector);
+
+	var areCardsSelected = false;
+	with (oCard) {
+		if (isSelected) {
+			areCardsSelected = true;
+		}
+	}
+	if (!areCardsSelected) {
+		state = DealerState.SHOWING_FINAL_RESULTS;
+	}
 }
 
 
@@ -75,7 +93,40 @@ switch (state) {
 		}
 	} break;
 
-	case DealerState.IDLE:
+	case DealerState.ALLOWING_CARD_REPLACEMENT_CHOICES: {
+		if (keyboard_check_pressed(vk_left)) {
+			selectedCardIndex = selectedCardIndex - 1 < 0 ? NUM_CARDS - 1 : selectedCardIndex - 1;
+		} else if (keyboard_check_pressed(vk_right)) {
+			selectedCardIndex = selectedCardIndex + 1 >= NUM_CARDS ? 0 : selectedCardIndex + 1;
+		} else if (keyboard_check_pressed(vk_space)) {
+			cards[selectedCardIndex].state = CardState.BEGIN_CHANGE_SELECTION_STATUS;
+		}
+
+		cardSelector.x = CARD_TARGET_POSITIONS[selectedCardIndex].x;
+		cardSelector.y = CARD_SELECTOR_Y;
+	} break;
+
+	case DealerState.REMOVING_CHOSEN_CARDS: {
+		//TODO
+	} break;
+
+	case DealerState.DEALING_REPLACEMENT_CARDS: {
+		//TODO
+	} break;
+
+	case DealerState.ROTATING_REPLACEMENT_CARDS_TO_UPRIGHT_POSITION: {
+		//TODO
+	} break;
+
+	case DealerState.FLIPPING_REPLACEMENT_CARDS: {
+		//TODO
+	} break;
+
+	case DealerState.SHOWING_FINAL_RESULTS: {
+		//TODO
+	} break;
+
+	case DealerState.START:
 	default: {
 		// do nothing
 	} break;

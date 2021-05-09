@@ -1,11 +1,17 @@
 enum DealerState {
-	IDLE,
+	START,
 	DEALING_CARDS,
 	ROTATING_CARDS_TO_UPRIGHT_POSITION,
-	FLIPPING_CARDS
+	FLIPPING_CARDS,
+	ALLOWING_CARD_REPLACEMENT_CHOICES,
+	REMOVING_CHOSEN_CARDS,
+	DEALING_REPLACEMENT_CARDS,
+	ROTATING_REPLACEMENT_CARDS_TO_UPRIGHT_POSITION,
+	FLIPPING_REPLACEMENT_CARDS,
+	SHOWING_FINAL_RESULTS
 };
 
-state = DealerState.IDLE;
+state = DealerState.START;
 
 cards = [noone, noone, noone, noone, noone];
 NUM_CARDS = array_length(cards);
@@ -23,3 +29,7 @@ CARD_DEALING_POSITION = {
 };
 
 currentCardIndex = 0;
+
+CARD_SELECTOR_Y = 90;
+cardSelector = noone;
+selectedCardIndex = 0;

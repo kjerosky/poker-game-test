@@ -1,6 +1,7 @@
 var isAtTargetPosition = dealFramesLeft == 0;
 var isInUprightPosition = rotateToUprightPositionFramesLeft == 0;
 var isFlippingComplete = flippingFramesLeft == 0;
+var isSelectionStatusChangeComplete = changeSelectionStatusFramesLeft == 0;
 
 if (state == CardState.BEGIN_BEING_DEALT) {
 	state = CardState.BEING_DEALT;
@@ -35,6 +36,36 @@ if (state == CardState.BEGIN_BEING_DEALT) {
 	state = CardState.IDLE;
 
 	image_xscale = 1;
+} else if (state == CardState.BEGIN_CHANGE_SELECTION_STATUS) {
+	state = CardState.CHANGE_SELECTION_STATUS;
+
+	changeSelectionStatusFramesLeft = CHANGE_SELECTION_STATUS_FRAMES;
+	isSelected = !isSelected;
+	if (isSelected) {
+		deltaX = 0;
+		deltaY = SELECTED_Y_OFFSET / CHANGE_SELECTION_STATUS_FRAMES;
+
+		var angleOffset = choose(-SELECTED_ANGLE_MAX_OFFSET, 0, SELECTED_ANGLE_MAX_OFFSET);
+		deltaAngle = (angleOffset - image_angle) / CHANGE_SELECTION_STATUS_FRAMES;
+	} else {
+		deltaX = 0;
+		deltaY = -SELECTED_Y_OFFSET / CHANGE_SELECTION_STATUS_FRAMES;
+
+		var angleOffset = 0;
+		if (image_angle > 180) {
+			deltaAngle = (angleOffset - (image_angle - 360)) / CHANGE_SELECTION_STATUS_FRAMES;
+		} else {
+			deltaAngle = (angleOffset - image_angle) / CHANGE_SELECTION_STATUS_FRAMES;
+		}
+	}
+} else if (state == CardState.CHANGE_SELECTION_STATUS && isSelectionStatusChangeComplete) {
+	state = CardState.IDLE;
+
+	if (!isSelected) {
+		x = targetX;
+		y = targetY;
+		image_angle = 0;
+	}
 }
 
 switch (state) {
@@ -63,6 +94,15 @@ switch (state) {
 		}
 
 		flippingFramesLeft--;
+	} break;
+
+	case CardState.CHANGE_SELECTION_STATUS: {
+		x += deltaX;
+		y += deltaY;
+
+		image_angle += deltaAngle;
+
+		changeSelectionStatusFramesLeft--;
 	} break;
 
 	case CardState.IDLE:
